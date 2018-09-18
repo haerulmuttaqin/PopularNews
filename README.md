@@ -20,13 +20,13 @@ Retrofit is a REST Client for Java and Android. Its use is very easy.
 
 # Clone this project
 
-> Clone with HTTPS
+Clone with HTTPS
 https://github.com/haerulmuttaqin/PopularNews.git
 
-> Clone with SSH
+Clone with SSH
 git@github.com:haerulmuttaqin/PopularNews.git
 
->Get your API key
+Get your API key
 https://newsapi.org/register
 
 >Replace your API key
