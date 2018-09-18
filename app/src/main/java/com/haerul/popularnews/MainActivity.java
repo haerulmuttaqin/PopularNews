@@ -39,7 +39,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayout.OnRefreshListener{
 
-    public static final String API_KEY = "1a6fb5e756684298b67fbd7e9d8ffd77";
+    public static final String API_KEY = "your secret api key";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articles = new ArrayList<>();
