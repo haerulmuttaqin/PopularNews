@@ -7,48 +7,65 @@
     tools:context=".MainActivity"
     android:background="@color/colorBackground">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/adView"
+            android:layout_marginBottom="50dp"
+            android:background="@color/colorBackground">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/topheadelines"
-                    android:textColor="@color/colorTextTitle"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="Top Headlines"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="17sp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="invisible"/>
+                    android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:scrollbars="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:id="@+id/topheadelines"
+                        android:textColor="@color/colorTextTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Top Headlines"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="17sp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:visibility="invisible"/>
 
-            </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:scrollbars="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </android.support.v7.widget.RecyclerView>
 
-        </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            </android.support.v4.widget.NestedScrollView>
 
-    <include layout="@layout/error"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include layout="@layout/error"/>
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="SMART_BANNER"
+            android:layout_alignParentBottom="true"
+            ads:adUnitId="ca-app-pub-7622707640153634/6218852826"/>
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,11 +2,13 @@ package com.haerul.popularnews;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +24,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class NewsDetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -33,6 +38,8 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private String mUrl, mImg, mTitle, mDate, mSource, mAuthor;
+    private InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,10 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
 
         initWebView(mUrl);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-7622707640153634/5131010163");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
     }
 
     private void initWebView(String url){
@@ -108,8 +119,25 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
 
     @Override
     public void onBackPressed() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        supportFinishAfterTransition();
+                    }
+                }, 200);
+            }
+        });
         super.onBackPressed();
-        supportFinishAfterTransition();
     }
 
     @Override

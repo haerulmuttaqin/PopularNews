@@ -20,11 +20,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.haerul.popularnews.models.Article;
 import java.util.List;
 
 
-public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder>{
+public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
 
     private List<Article> articles;
     private Context context;
@@ -38,16 +41,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder>{
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new MyViewHolder(view, onItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holders, int position) {
-        final MyViewHolder holder = holders;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holders, int position) {
+        final MyViewHolder holder = (MyViewHolder) holders;
         Article model = articles.get(position);
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.error(Utils.getRandomDrawbleColor());
@@ -125,4 +127,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder>{
             onItemClickListener.onItemClick(v, getAdapterPosition());
         }
     }
+
 }

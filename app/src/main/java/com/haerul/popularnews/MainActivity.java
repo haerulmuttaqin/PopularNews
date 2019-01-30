@@ -4,19 +4,19 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.haerul.popularnews.api.ApiClient;
 import com.haerul.popularnews.api.ApiInterface;
 import com.haerul.popularnews.models.Article;
@@ -32,14 +35,14 @@ import com.haerul.popularnews.models.News;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayout.OnRefreshListener {
 
     public static final String API_KEY = "1a6fb5e756684298b67fbd7e9d8ffd77";
+    public static final String ADMOB_APP_ID = "ca-app-pub-7622707640153634~8677495206";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articles = new ArrayList<>();
@@ -51,11 +54,17 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
     private ImageView errorImage;
     private TextView errorTitle, errorMessage;
     private Button btnRetry;
+    private AdView adView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this.getApplicationContext(), ADMOB_APP_ID);
+
+        adView = findViewById(R.id.adView);
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -76,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
         errorMessage = findViewById(R.id.errorMessage);
         btnRetry = findViewById(R.id.btnRetry);
 
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
     public void LoadJson(final String keyword){
@@ -163,7 +174,8 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
 
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(final View view, final int position) {
+
                 ImageView imageView = view.findViewById(R.id.img);
                 Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
 
@@ -264,6 +276,4 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
         });
 
     }
-
-
 }
